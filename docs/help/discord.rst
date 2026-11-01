@@ -3,7 +3,7 @@
 Discord
 =======
 
-There's a discord channel which is frequented by some `contributors <https://github.com/archlinux/archinstall/graphs/contributors>`_.
+sOninstall is based on sOninstall, which has a discord channel frequented by some of its `contributors <https://github.com/archlinux/archinstall/graphs/contributors>`_.
 
 To join the server, head over to `https://discord.gg/aDeMffrxNg <https://discord.gg/aDeMffrxNg>`_ and join in.
 There's not many rules other than common sense and to treat others with respect. The general chat is for off-topic things as well.

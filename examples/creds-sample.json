@@ -2,7 +2,7 @@
     "users": [
         {
             "sudo": true,
-            "username": "archinstall",
+            "username": "sonos",
             "enc_password": "password_hash"
 
         }

@@ -56,11 +56,11 @@ build_iso:
     - pwd
     - find .
     - cat /etc/os-release
-    - mkdir -p /tmp/archlive/airootfs/root/archinstall-git; cp -r . /tmp/archlive/airootfs/root/archinstall-git
-    - echo "pip uninstall archinstall -y; cd archinstall-git; python setup.py install" > /tmp/archlive/airootfs/root/.zprofile
-    - echo "echo \"This is an unofficial ISO for development and testing of archinstall. No support will be provided.\"" >> /tmp/archlive/airootfs/root/.zprofile
+    - mkdir -p /tmp/archlive/airootfs/root/soninstall-git; cp -r . /tmp/archlive/airootfs/root/soninstall-git
+    - echo "pip uninstall soninstall -y; cd soninstall-git; python setup.py install" > /tmp/archlive/airootfs/root/.zprofile
+    - echo "echo \"This is an unofficial ISO for development and testing of sOninstall. No support will be provided.\"" >> /tmp/archlive/airootfs/root/.zprofile
     - echo "echo \"This ISO was built from Git SHA $CI_COMMIT_SHA\"" >> /tmp/archlive/airootfs/root/.zprofile
-    - echo "echo \"Type archinstall to launch the installer.\"" >> /tmp/archlive/airootfs/root/.zprofile
+    - echo "echo \"Type soninstall to launch the installer.\"" >> /tmp/archlive/airootfs/root/.zprofile
     - cat /tmp/archlive/airootfs/root/.zprofile
     - pacman --noconfirm -S git archiso
     - cp -r /usr/share/archiso/configs/releng/* /tmp/archlive

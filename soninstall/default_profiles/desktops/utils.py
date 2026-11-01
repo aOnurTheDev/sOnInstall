@@ -1,0 +1,61 @@
+from enum import Enum
+
+from soninstall.lib.installer import Installer
+from soninstall.lib.menu.helpers import Selection
+from soninstall.lib.models.users import User
+from soninstall.lib.translationhandler import tr
+from soninstall.tui.menu_item import MenuItem, MenuItemGroup
+from soninstall.tui.result import ResultType
+
+
+class SeatAccess(Enum):
+	seatd = 'seatd'
+	systemd_logind = 'systemd-logind'
+
+
+# Arch builds systemd with polkit support, logind depends on it
+def seat_access_packages(seat_access: str | None) -> list[str]:
+	if seat_access == SeatAccess.seatd.value:
+		return ['seatd']
+	if seat_access == SeatAccess.systemd_logind.value:
+		return ['polkit']
+	return []
+
+
+# polkit.service is static (dbus activated), only seatd needs enabling
+def seat_access_services(seat_access: str | None) -> list[str]:
+	if seat_access == SeatAccess.seatd.value:
+		return ['seatd']
+	return []
+
+
+def provision_seat_access(
+	install_session: Installer,
+	users: list[User],
+	seat_access: str,
+) -> None:
+	if seat_access == SeatAccess.seatd.value:
+		for user in users:
+			install_session.arch_chroot(f'usermod -a -G seat {user.username}')
+
+
+async def select_seat_access(profile_name: str, default: str | None) -> SeatAccess:
+	header = tr('{} needs access to your seat').format(profile_name)
+	header += f' ({tr("collection of hardware devices i.e. keyboard, mouse")})' + '\n'
+	header += tr('Choose an option how to give {} access to your hardware').format(profile_name)
+
+	items = [MenuItem(s.value, value=s) for s in SeatAccess]
+	group = MenuItemGroup(items, sort_items=True)
+
+	group.set_default_by_value(default)
+
+	result = await Selection[SeatAccess](
+		group,
+		header=header,
+		allow_skip=False,
+	).show()
+
+	if result.type_ == ResultType.Selection:
+		return result.get_value()
+
+	raise ValueError('Unexpected result type from seat access selection')

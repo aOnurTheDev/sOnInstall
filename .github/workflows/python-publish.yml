@@ -1,7 +1,7 @@
 # This workflow will upload a Python Package when a release is created
 # For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
 
-name: Upload archinstall to PyPi
+name: Upload sOninstall to PyPi
 
 on:
   release:
@@ -25,9 +25,9 @@ jobs:
           pacman --noconfirm -Sy archlinux-keyring
           pacman --noconfirm -Syyu
           pacman --noconfirm -Sy python python-uv python-setuptools python-pip python-pyparted python-pydantic python-textual
-      - name: Build archinstall
+      - name: Build sOninstall
         run: |
           uv build --no-build-isolation --wheel
-      - name: Publish archinstall to PyPi
+      - name: Publish sOninstall to PyPi
         run: |
           uv publish --trusted-publishing always

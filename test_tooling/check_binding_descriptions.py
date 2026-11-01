@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Verify archinstall/tui/binding_descriptions.py against the installed textual.
+"""Verify soninstall/tui/binding_descriptions.py against the installed textual.
 
 Run manually after a textual upgrade or after introducing a new textual
-widget in archinstall/tui/components.py:
+widget in soninstall/tui/components.py:
 
 	python3 test_tooling/check_binding_descriptions.py
 
 The script parses the tr_noop() entries from binding_descriptions.py (no
-archinstall import needed) and compares them with the MRO-merged binding
+soninstall import needed) and compares them with the MRO-merged binding
 descriptions of the textual classes used in components.py. Exits non-zero
 on any difference and prints the exact missing/stale entries.
 """
@@ -20,11 +20,11 @@ from textual.app import App
 from textual.screen import Screen
 from textual.widgets import Button, DataTable, HelpPanel, Input, OptionList, SelectionList
 
-# Must mirror the textual widget classes used in archinstall/tui/components.py.
+# Must mirror the textual widget classes used in soninstall/tui/components.py.
 # Extend when a new widget is introduced there.
 TEXTUAL_CLASSES = (App, Screen, Button, DataTable, HelpPanel, Input, OptionList, SelectionList)
 
-MODULE_PATH = Path(__file__).parent.parent / 'archinstall/tui/binding_descriptions.py'
+MODULE_PATH = Path(__file__).parent.parent / 'soninstall/tui/binding_descriptions.py'
 
 
 def live_descriptions() -> set[str]:

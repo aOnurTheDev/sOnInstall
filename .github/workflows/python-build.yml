@@ -1,6 +1,6 @@
 # This workflow will build Python packages on every commit.
 
-name: Build archinstall
+name: Build sOninstall
 
 on: [ push, pull_request ]
 
@@ -19,21 +19,21 @@ jobs:
           pacman --noconfirm -Syyu
           pacman --noconfirm -Sy python-uv python-setuptools python-pip
           pacman --noconfirm -Sy python-pyparted python-pydantic python-textual
-      - name: Remove existing archinstall (if any)
+      - name: Remove existing sOninstall (if any)
         run: 
-          uv pip uninstall archinstall --break-system-packages --system
-      - name: Build archinstall
+          uv pip uninstall soninstall --break-system-packages --system
+      - name: Build sOninstall
         run: uv build --no-build-isolation --wheel
-      - name: Install archinstall
+      - name: Install sOninstall
         run: |
           uv pip install dist/*.whl --break-system-packages --system --no-build --no-deps
-      - name: Run archinstall
+      - name: Run sOninstall
         run: |
           python -V
-          archinstall --script guided -v
-          archinstall --script only_hd -v
-          archinstall --script minimal -v
+          soninstall --script guided -v
+          soninstall --script only_hd -v
+          soninstall --script minimal -v
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: archinstall
+          name: soninstall
           path: dist/*

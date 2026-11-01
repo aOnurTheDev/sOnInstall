@@ -1,0 +1,67 @@
+# Maintainer: aOnurTheDev <osmanarslantas466@gmail.com>
+
+pkgname=soninstall-git
+_pkgname=soninstall
+pkgver=4.5
+pkgrel=1
+pkgdesc='sOninstall, the guided and automated installer for sOnOs (a fork of archinstall)'
+arch=('any')
+url='https://github.com/aOnurTheDev/sOnInstall'
+license=('GPL-3.0-only')
+depends=(
+	'arch-install-scripts'
+	'btrfs-progs'
+	'coreutils'
+	'cryptsetup'
+	'dosfstools'
+	'e2fsprogs'
+	'f2fs-tools'
+	'glibc'
+	'kbd'
+	'libfido2'
+	'libxcrypt'
+	'lvm2'
+	'pciutils'
+	'procps-ng'
+	'python'
+	'python-cryptography'
+	'python-linkify-it-py'
+	'python-markdown-it-py'
+	'python-pydantic'
+	'python-pyparted'
+	'python-textual'
+	'systemd'
+	'util-linux'
+	'xfsprogs'
+)
+makedepends=(
+	'git'
+	'python-build'
+	'python-installer'
+	'python-setuptools'
+	'python-wheel'
+)
+optdepends=('python-systemd: for systemd-journald support')
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
+source=("${_pkgname}::git+${url}.git")
+sha256sums=('SKIP')
+
+pkgver() {
+	cd "${_pkgname}"
+	printf '%s.r%s.g%s' \
+		"$(git describe --tags --abbrev=0 | sed 's/^v//')" \
+		"$(git rev-list --count "$(git describe --tags --abbrev=0)"..HEAD)" \
+		"$(git rev-parse --short=7 HEAD)"
+}
+
+build() {
+	cd "${_pkgname}"
+	python -m build --wheel --no-isolation
+}
+
+package() {
+	cd "${_pkgname}"
+	python -m installer --destdir="${pkgdir}" dist/*.whl
+	install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

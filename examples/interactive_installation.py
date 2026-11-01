@@ -1,1 +1,1 @@
-../archinstall/scripts/guided.py
+../soninstall/scripts/guided.py

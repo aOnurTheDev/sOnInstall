@@ -38,4 +38,3 @@ jobs:
           publish_dir: _build/
           force_orphan: true
           enable_jekyll: false # This is required to preserve _static (and thus the theme)
-          cname: archinstall.archlinux.page

@@ -3,19 +3,51 @@ from pathlib import Path
 
 from pytest import MonkeyPatch
 
-from archinstall.lib.args import USER_CONFIG_FILE, USER_CREDS_FILE, ArchConfigHandler
+from soninstall.lib.args import USER_CONFIG_FILE, USER_CREDS_FILE, ArchConfigHandler
+from soninstall.lib.models.application import ApplicationConfiguration, DevelopmentConfiguration, DevelopmentTool
+
+
+def test_development_tools() -> None:
+	packages = [package for tool in DevelopmentTool for package in tool.packages()]
+	assert 'gcc' in packages
+	assert 'rust' in packages
+	assert 'code' in packages
+	assert 'gamemode' not in packages
+	# Not in the Arch repos; including them would make pacstrap fail
+	assert 'scala' not in packages
+	assert 'swift' not in packages
+
+	config = DevelopmentConfiguration(tools=[DevelopmentTool.BUILD_TOOLS, DevelopmentTool.RUST])
+	# gcc is in both groups, but installed once
+	assert config.packages().count('gcc') == 1
+
+	app_config = ApplicationConfiguration(development_config=config)
+	assert app_config.json() == {'development_config': {'tools': ['C / C++ and build tools', 'Rust']}}
+	assert ApplicationConfiguration.parse_arg(json.loads(json.dumps(app_config.json()))) == app_config
+
+	# Keys of an older version are ignored
+	assert (
+		ApplicationConfiguration.parse_arg(
+			{
+				'developer_tools': True,
+				'game_mode': True,
+				'programming_languages': ['Rust'],
+			}
+		).json()
+		== {}
+	)
 
 
 def test_user_config_roundtrip(
 	monkeypatch: MonkeyPatch,
 	config_fixture: Path,
 ) -> None:
-	monkeypatch.setattr('sys.argv', ['archinstall', '--config', str(config_fixture)])
+	monkeypatch.setattr('sys.argv', ['soninstall', '--config', str(config_fixture)])
 
 	handler = ArchConfigHandler()
 	arch_config = handler.config
 
-	# the version is retrieved dynamically from an installed archinstall package
+	# the version is retrieved dynamically from an installed soninstall package
 	# as there is no version present in the test environment we'll set it manually
 	arch_config.version = '3.0.2'
 
@@ -41,7 +73,7 @@ def test_creds_roundtrip(
 	monkeypatch: MonkeyPatch,
 	creds_fixture: Path,
 ) -> None:
-	monkeypatch.setattr('sys.argv', ['archinstall', '--creds', str(creds_fixture)])
+	monkeypatch.setattr('sys.argv', ['soninstall', '--creds', str(creds_fixture)])
 
 	handler = ArchConfigHandler()
 	arch_config = handler.config

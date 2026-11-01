@@ -1,1 +1,1 @@
-../archinstall/scripts/only_hd.py
+../soninstall/scripts/only_hd.py

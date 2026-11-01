@@ -1,4 +1,4 @@
-cd archinstall-git
+cd soninstall-git
 rm -rf dist
 
 uv build --no-build-isolation --wheel

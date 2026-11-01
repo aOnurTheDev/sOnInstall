@@ -2,13 +2,13 @@ name: Translation validation
 on:
     push:
         paths:
-            - 'archinstall/**/*.py'
-            - 'archinstall/locales/**'
+            - 'soninstall/**/*.py'
+            - 'soninstall/locales/**'
             - '.github/workflows/translation-check.yaml'
     pull_request:
         paths:
-            - 'archinstall/**/*.py'
-            - 'archinstall/locales/**'
+            - 'soninstall/**/*.py'
+            - 'soninstall/locales/**'
             - '.github/workflows/translation-check.yaml'
 permissions: {}
 jobs:
@@ -22,4 +22,4 @@ jobs:
             - name: Install gettext
               run: sudo apt-get update && sudo apt-get install -y gettext
             - name: Run translation checks
-              run: bash archinstall/locales/locales_generator.sh check
+              run: bash soninstall/locales/locales_generator.sh check

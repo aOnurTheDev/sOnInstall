@@ -12,4 +12,4 @@ jobs:
                 persist-credentials: false
             - run: pacman --noconfirm -Syu bandit
             - name: Security checkup with Bandit
-              run: bandit -r archinstall || exit 0
+              run: bandit -r soninstall || exit 0

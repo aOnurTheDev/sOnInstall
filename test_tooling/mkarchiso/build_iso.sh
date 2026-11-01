@@ -21,19 +21,19 @@ packages=(
 if [ -d "/tmp/archlive" ]; then
     rm -rf "/tmp/archlive"
 fi
-mkdir -p /tmp/archlive/airootfs/root/archinstall-git
-cp -r . /tmp/archlive/airootfs/root/archinstall-git
+mkdir -p /tmp/archlive/airootfs/root/soninstall-git
+cp -r . /tmp/archlive/airootfs/root/soninstall-git
 
 cat <<- _EOF_ | tee /tmp/archlive/airootfs/root/.zprofile
-	cd archinstall-git
+	cd soninstall-git
 	rm -rf dist
 
 	uv build --no-build-isolation --wheel
 	uv pip install dist/*.whl --break-system-packages --system --no-build --no-deps
 
-	echo "This is an unofficial ISO for development and testing of archinstall. No support will be provided."
+	echo "This is an unofficial ISO for development and testing of sOninstall. No support will be provided."
 	echo "This ISO was built from Git SHA $GITHUB_SHA"
-	echo "Type archinstall to launch the installer."
+	echo "Type soninstall to launch the installer."
 _EOF_
 
 pacman --noconfirm -S archiso

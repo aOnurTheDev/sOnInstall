@@ -3,15 +3,15 @@
 Guided installation
 ===================
 
-Archinstall ships with a pre-programmed `Guided Installer`_ guiding you through the mandatory steps as well as some optional configurations that can be done.
+sOninstall ships with a pre-programmed `Guided Installer`_ guiding you through the mandatory steps as well as some optional configurations that can be done.
 
 .. note::
 
-   Other pre-programmed scripts can be invoked by executing :code:`archinstall --script <script>` *(without .py)*. To see a complete list of scripts, run :code:`archinstall --script list` or check the source code `scripts`_ directory.
+   Other pre-programmed scripts can be invoked by executing :code:`soninstall --script <script>` *(without .py)*. To see a complete list of scripts, run :code:`soninstall --script list` or check the source code `scripts`_ directory.
 
 .. note::
 
-   It's recommended to run ``archinstall`` from the official Arch Linux ISO.
+   It's recommended to run ``soninstall`` from the official Arch Linux ISO.
 
 
 .. warning::
@@ -24,9 +24,9 @@ To start the installer, run the following in the latest Arch Linux ISO:
 
 .. code-block:: sh
 
-    archinstall
+    soninstall
 
-Since the `Guided Installer`_ is the default script, this is the equivalent of running :code:`archinstall guided`
+Since the `Guided Installer`_ is the default script, this is the equivalent of running :code:`soninstall guided`
 
 
 The guided installation also supports installing with pre-configured answers to all the guided steps. This can be a quick and convenient way to re-run one or several installations.
@@ -45,18 +45,18 @@ This parameter takes a remote :code:`.json` file as argument and contains the ov
 
 .. note::
 
-   You can always get the latest options for this file with ``archinstall --dry-run``, this executes the guided installer in a safe mode where no permanent actions will be taken on your system but simulate a run and save the configuration to disk.
+   You can always get the latest options for this file with ``soninstall --dry-run``, this executes the guided installer in a safe mode where no permanent actions will be taken on your system but simulate a run and save the configuration to disk.
 
 Example usage
 ^^^^^^^^^^^^^
 
 .. code-block:: sh
 
-    archinstall --config config.json
+    soninstall --config config.json
 
 .. code-block:: sh
 
-    archinstall --config-url https://domain.lan/config.json
+    soninstall --config-url https://domain.lan/config.json
 
 The contents of :code:`https://domain.lan/config.json`:
 
@@ -64,7 +64,7 @@ The contents of :code:`https://domain.lan/config.json`:
 
    {
      "additional-repositories": [],
-     "archinstall-language": "English",
+     "installer_language": "English",
      "audio_config": null,
      "bootloader_config": {
        "bootloader": "Systemd-boot",
@@ -247,10 +247,10 @@ The contents of :code:`https://domain.lan/config.json`:
    :escape: !
    :header-rows: 1
 
-.. I'd like to keep this note, as this is the intended behavior of archinstall.
+.. I'd like to keep this note, as this is the intended behavior of sOninstall.
 .. note::
 
-   If no entries are found in ``disk_config``, archinstall guided installation will use whatever is mounted currently under ``/mnt/archinstall`` without performing any disk operations.
+   If no entries are found in ``disk_config``, sOninstall guided installation will use whatever is mounted currently under ``/mnt/soninstall`` without performing any disk operations.
 
 Options for ``--creds``
 -----------------------

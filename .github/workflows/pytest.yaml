@@ -18,7 +18,7 @@ jobs:
                 pacman --noconfirm -Syyu
                 pacman --noconfirm -Sy python-pip python-pyparted pkgconfig gcc
             - run: pip install --break-system-packages --upgrade pip
-            - name: Install archinstall dependencies
+            - name: Install sOninstall dependencies
               run: pip install --break-system-packages .[dev]
             - name: Test with pytest
               run: pytest

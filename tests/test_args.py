@@ -1,14 +1,14 @@
 import json
-import os
 from importlib.metadata import version
 from pathlib import Path
 
+import pytest
 from pytest import MonkeyPatch
 
-from archinstall.default_profiles.profile import CustomSetting, GreeterType
-from archinstall.lib.args import ArchConfig, ArchConfigHandler, Arguments
-from archinstall.lib.hardware import GfxDriver
-from archinstall.lib.models.application import (
+from soninstall.default_profiles.profile import CustomSetting, GreeterType
+from soninstall.lib.args import ArchConfig, ArchConfigHandler, Arguments
+from soninstall.lib.hardware import GfxDriver
+from soninstall.lib.models.application import (
 	ApplicationConfiguration,
 	Audio,
 	AudioConfiguration,
@@ -16,22 +16,22 @@ from archinstall.lib.models.application import (
 	PrintServiceConfiguration,
 	ZramConfiguration,
 )
-from archinstall.lib.models.authentication import AuthenticationConfiguration, U2FLoginConfiguration, U2FLoginMethod
-from archinstall.lib.models.bootloader import Bootloader, BootloaderConfiguration
-from archinstall.lib.models.device import DiskLayoutConfiguration, DiskLayoutType, Size
-from archinstall.lib.models.locale import LocaleConfiguration
-from archinstall.lib.models.mirrors import CustomRepository, CustomServer, MirrorConfiguration, MirrorRegion, SignCheck, SignOption
-from archinstall.lib.models.network import NetworkConfiguration, Nic, NicType
-from archinstall.lib.models.packages import Repository
-from archinstall.lib.models.pacman import PacmanConfiguration
-from archinstall.lib.models.profile import ProfileConfiguration
-from archinstall.lib.models.users import Password, User
-from archinstall.lib.profile.profiles_handler import profile_handler
-from archinstall.lib.translationhandler import translation_handler
+from soninstall.lib.models.authentication import AuthenticationConfiguration, U2FLoginConfiguration, U2FLoginMethod
+from soninstall.lib.models.bootloader import Bootloader, BootloaderConfiguration
+from soninstall.lib.models.device import DiskLayoutConfiguration, DiskLayoutType, Size
+from soninstall.lib.models.locale import LocaleConfiguration
+from soninstall.lib.models.mirrors import CustomRepository, CustomServer, MirrorConfiguration, MirrorRegion, SignCheck, SignOption
+from soninstall.lib.models.network import NetworkConfiguration, Nic, NicType
+from soninstall.lib.models.packages import Repository
+from soninstall.lib.models.pacman import PacmanConfiguration
+from soninstall.lib.models.profile import ProfileConfiguration
+from soninstall.lib.models.users import Password, User
+from soninstall.lib.profile.profiles_handler import profile_handler
+from soninstall.lib.translationhandler import translation_handler
 
 
 def test_default_args(monkeypatch: MonkeyPatch) -> None:
-	monkeypatch.setattr('sys.argv', ['archinstall'])
+	monkeypatch.setattr('sys.argv', ['soninstall'])
 	handler = ArchConfigHandler()
 	args = handler.args
 	assert args == Arguments(
@@ -65,7 +65,7 @@ def test_correct_parsing_args(
 	monkeypatch.setattr(
 		'sys.argv',
 		[
-			'archinstall',
+			'soninstall',
 			'--config',
 			str(config_fixture),
 			'--config-url',
@@ -123,7 +123,7 @@ def test_config_file_parsing(
 	monkeypatch.setattr(
 		'sys.argv',
 		[
-			'archinstall',
+			'soninstall',
 			'--config',
 			str(config_fixture),
 			'--creds',
@@ -138,7 +138,7 @@ def test_config_file_parsing(
 	arch_config.disk_config.device_modifications = []  # type: ignore[union-attr]
 
 	assert arch_config == ArchConfig(
-		version=version('archinstall'),
+		version=version('soninstall'),
 		script='test_script',
 		app_config=ApplicationConfiguration(
 			bluetooth_config=BluetoothConfiguration(enabled=True),
@@ -165,7 +165,7 @@ def test_config_file_parsing(
 			sys_lang='en_US',
 			sys_enc='UTF-8',
 		),
-		archinstall_language=translation_handler.get_language_by_abbr('en'),
+		installer_language=translation_handler.get_language_by_abbr('en'),
 		disk_config=DiskLayoutConfiguration(
 			config_type=DiskLayoutType.Default,
 			device_modifications=[],
@@ -247,6 +247,10 @@ def test_config_file_parsing(
 	)
 
 
+def test_default_hostname() -> None:
+	assert ArchConfig().hostname == 'sOnOs'
+
+
 def test_deprecated_mirror_config_parsing(
 	monkeypatch: MonkeyPatch,
 	deprecated_mirror_config: Path,
@@ -254,7 +258,7 @@ def test_deprecated_mirror_config_parsing(
 	monkeypatch.setattr(
 		'sys.argv',
 		[
-			'archinstall',
+			'soninstall',
 			'--config',
 			str(deprecated_mirror_config),
 		],
@@ -290,7 +294,7 @@ def test_deprecated_creds_config_parsing(
 	monkeypatch.setattr(
 		'sys.argv',
 		[
-			'archinstall',
+			'soninstall',
 			'--creds',
 			str(deprecated_creds_config),
 		],
@@ -319,7 +323,7 @@ def test_deprecated_audio_config_parsing(
 	monkeypatch.setattr(
 		'sys.argv',
 		[
-			'archinstall',
+			'soninstall',
 			'--config',
 			str(deprecated_audio_config),
 		],
@@ -340,7 +344,7 @@ def test_encrypted_creds_with_arg(
 	monkeypatch.setattr(
 		'sys.argv',
 		[
-			'archinstall',
+			'soninstall',
 			'--creds',
 			str(encrypted_creds_fixture),
 			'--creds-decryption-key',
@@ -367,11 +371,11 @@ def test_encrypted_creds_with_env_var(
 	monkeypatch: MonkeyPatch,
 	encrypted_creds_fixture: Path,
 ) -> None:
-	os.environ['ARCHINSTALL_CREDS_DECRYPTION_KEY'] = 'master'
+	monkeypatch.setenv('SONINSTALL_CREDS_DECRYPTION_KEY', 'master')
 	monkeypatch.setattr(
 		'sys.argv',
 		[
-			'archinstall',
+			'soninstall',
 			'--creds',
 			str(encrypted_creds_fixture),
 		],
@@ -400,7 +404,7 @@ def test_example_config_parsing(
 	monkeypatch.setattr(
 		'sys.argv',
 		[
-			'archinstall',
+			'soninstall',
 			'--config',
 			str(example_config_fixture),
 			'--creds',
@@ -444,3 +448,15 @@ def test_example_config_partitions(example_config_fixture: Path) -> None:
 				assert start >= previous_end
 
 			previous_end = end
+
+
+@pytest.mark.parametrize('key', ['installer_language', 'archinstall_language', 'archinstall-language'])
+def test_installer_language_from_config(key: str) -> None:
+	# The archinstall spellings are in configurations saved by archinstall
+	try:
+		config = ArchConfig.from_config({key: 'Turkish'}, Arguments())
+		assert config.installer_language.abbr == 'tr'
+	finally:
+		translation_handler.activate(translation_handler.get_language_by_abbr('en'), set_font=False)
+
+	assert json.loads(config.user_config_to_json())['installer_language'] == 'Turkish'

@@ -1,0 +1,76 @@
+# Maintainer: aOnurTheDev <osmanarslantas466@gmail.com>
+# soninstall from this checkout, uncommitted changes included, for build-repo.sh.
+# Keep depends in sync with packaging/aur/soninstall-git/PKGBUILD.
+
+pkgname=soninstall
+pkgver=4.5.r202611011627
+pkgrel=1
+pkgdesc='sOninstall, the guided and automated installer for sOnOs (a fork of archinstall)'
+arch=('any')
+url='https://github.com/aOnurTheDev/sOnInstall'
+license=('GPL-3.0-only')
+depends=(
+	'arch-install-scripts'
+	'btrfs-progs'
+	'coreutils'
+	'cryptsetup'
+	'dosfstools'
+	'e2fsprogs'
+	'f2fs-tools'
+	'glibc'
+	'kbd'
+	'libfido2'
+	'libxcrypt'
+	'lvm2'
+	'pciutils'
+	'procps-ng'
+	'python'
+	'python-cryptography'
+	'python-linkify-it-py'
+	'python-markdown-it-py'
+	'python-pydantic'
+	'python-pyparted'
+	'python-textual'
+	'systemd'
+	'util-linux'
+	'xfsprogs'
+)
+makedepends=(
+	'python-build'
+	'python-installer'
+	'python-setuptools'
+	'python-wheel'
+)
+optdepends=('python-systemd: for systemd-journald support')
+conflicts=('soninstall-git')
+
+pkgver() {
+	# The version of the checkout and the build time, so every build is an upgrade
+	printf '%s.r%s' \
+		"$(sed -n 's/^version = "\(.*\)"$/\1/p' "${startdir}/../../pyproject.toml")" \
+		"$(date +%Y%m%d%H%M)"
+}
+
+prepare() {
+	# A copy of the checkout without the virtualenv, caches and build output
+	mkdir -p "${pkgname}"
+	tar -C "${startdir}/../.." \
+		--exclude=./.git \
+		--exclude=./.venv \
+		--exclude=./build \
+		--exclude=./dist \
+		--exclude='__pycache__' \
+		--exclude='*.egg-info' \
+		-cf - . | tar -C "${pkgname}" -xf -
+}
+
+build() {
+	cd "${pkgname}"
+	python -m build --wheel --no-isolation
+}
+
+package() {
+	cd "${pkgname}"
+	python -m installer --destdir="${pkgdir}" dist/*.whl
+	install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

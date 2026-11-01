@@ -1,10 +1,10 @@
 from pathlib import Path
 
-from archinstall.default_profiles.minimal import MinimalProfile
-from archinstall.lib.disk.device_handler import device_handler
-from archinstall.lib.disk.filesystem import FilesystemHandler
-from archinstall.lib.installer import Installer
-from archinstall.lib.models.device import (
+from soninstall.default_profiles.minimal import MinimalProfile
+from soninstall.lib.disk.device_handler import device_handler
+from soninstall.lib.disk.filesystem import FilesystemHandler
+from soninstall.lib.installer import Installer
+from soninstall.lib.models.device import (
 	DeviceModification,
 	DiskEncryption,
 	DiskLayoutConfiguration,
@@ -18,9 +18,9 @@ from archinstall.lib.models.device import (
 	Size,
 	Unit,
 )
-from archinstall.lib.models.profile import ProfileConfiguration
-from archinstall.lib.models.users import Password, User
-from archinstall.lib.profile.profiles_handler import profile_handler
+from soninstall.lib.models.profile import ProfileConfiguration
+from soninstall.lib.models.users import Password, User
+from soninstall.lib.profile.profiles_handler import profile_handler
 
 # we're creating a new ext4 filesystem installation
 fs_type = FilesystemType('ext4')
@@ -112,5 +112,5 @@ with Installer(
 profile_config = ProfileConfiguration(MinimalProfile())
 profile_handler.install_profile_config(installation, profile_config)
 
-user = User('archinstall', Password(plaintext='password'), True)
+user = User('sonos', Password(plaintext='password'), True)
 installation.create_users(user)

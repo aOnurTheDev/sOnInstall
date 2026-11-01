@@ -3,16 +3,16 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "archinstall"
+name = "soninstall"
 version = "4.5"
-description = "Arch Linux installer - guided, templates etc."
+description = "sOninstall, the guided and automated installer for sOnOs."
 authors = [
     {name = "Anton Hvornum", email = "anton@hvornum.se"},
 ]
 license = "GPL-3.0-only"
 readme = "README.md"
 requires-python = ">=3.14"
-keywords = ["linux", "arch", "archinstall", "installer"]
+keywords = ["linux", "arch", "sonos", "soninstall", "installer"]
 classifiers = [
     "Programming Language :: Python :: 3.14",
     "Operating System :: POSIX :: Linux",
@@ -27,9 +27,9 @@ dependencies = [
 ]
 
 [project.urls]
-Home = "https://archlinux.org"
-Documentation = "https://archinstall.readthedocs.io/"
-Source = "https://github.com/archlinux/archinstall"
+Home = "https://github.com/aOnurTheDev/sOnInstall"
+Documentation = "https://github.com/aOnurTheDev/sOnInstall#readme"
+Source = "https://github.com/aOnurTheDev/sOnInstall"
 
 [project.optional-dependencies]
 log = ["systemd_python>=235"]
@@ -45,7 +45,7 @@ dev = [
 doc = ["sphinx"]
 
 [project.scripts]
-archinstall = "archinstall.main:main"
+soninstall = "soninstall.main:main"
 
 [tool.setuptools.dynamic]
 readme = {file = ["README.rst", "USAGE.rst"]}
@@ -55,17 +55,19 @@ include-package-data = true
 
 [tool.setuptools.package-data]
 # We could specify locales/languages.json etc instead, but catchall works too.
-"archinstall" = [
+"soninstall" = [
     "**/*.py",
     "**/*.mo",
     "**/*.po",
     "**/*.pot",
     "**/*.json",
     "**/*.kdl",
+    "**/*.txt",
+    "**/*.svg",
 ]
 
 [tool.setuptools.package-dir]
-archinstall = "archinstall"
+soninstall = "soninstall"
 
 [tool.mypy]
 python_version = "3.14"
@@ -94,27 +96,27 @@ strict = true
 warn_unreachable = true
 
 [[tool.mypy.overrides]]
-module = "archinstall.default_profiles.*"
+module = "soninstall.default_profiles.*"
 disallow_any_explicit = true
 
 [[tool.mypy.overrides]]
-module = "archinstall.examples.*"
+module = "soninstall.examples.*"
 disallow_any_explicit = true
 
 [[tool.mypy.overrides]]
-module = "archinstall.lib.*"
+module = "soninstall.lib.*"
 warn_return_any = false
 
 [[tool.mypy.overrides]]
-module = "archinstall.lib.packages"
+module = "soninstall.lib.packages"
 disallow_any_explicit = true
 
 [[tool.mypy.overrides]]
-module = "archinstall.lib.utils"
+module = "soninstall.lib.utils"
 disallow_any_explicit = true
 
 [tool.bandit]
-targets = ["archinstall"]
+targets = ["soninstall"]
 exclude = ["/tests"]
 
 [tool.pytest]

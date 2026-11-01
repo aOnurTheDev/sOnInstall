@@ -1,10 +1,10 @@
 name: bug report
-description: archinstall crashed or could not install properly?
+description: sOninstall crashed or could not install properly?
 body:
   - type: markdown
     attributes:
       value: >
-        Please read the ~5 known issues first:
+        Please read the ~5 known issues of archinstall, which sOninstall is based on, first:
         https://archinstall.archlinux.page/help/known_issues.html
 
   - type: markdown
@@ -25,7 +25,7 @@ body:
     id: bug-report
     attributes:
       label: The installation log
-      description: 'note: located at `/var/log/archinstall/install.log`'
+      description: 'note: located at `/var/log/soninstall/install.log`'
       placeholder: |
         Hardware model detected: Dell Inc. Precision 7670; UEFI mode: True
         Processor model detected: 12th Gen Intel(R) Core(TM) i7-12850HX
@@ -42,7 +42,7 @@ body:
       value: >
         **Note**: Assuming you have network connectivity,
         you can easily upload the installation log and get a shareable URL by running:
-        `archinstall share-log`
+        `soninstall share-log`
 
   - type: textarea
     id: freeform
@@ -58,7 +58,7 @@ body:
 
         I was installing on X hardware ...
 
-        Then X Y Z happened and archinstall crashed ...
+        Then X Y Z happened and sOninstall crashed ...
 
         #### Virtual machine config:
 

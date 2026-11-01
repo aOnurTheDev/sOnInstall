@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "Archinstall Config",
-    "description": "A schema for the archinstall command config, more info over at https://archinstall.readthedocs.io/installing/guided.html#options-for-config",
+    "title": "sOninstall Config",
+    "description": "A schema for the soninstall command config, which follows the archinstall config format: https://archinstall.readthedocs.io/installing/guided.html#options-for-config",
     "type": "object",
     "properties": {
         "additional-repositories": {

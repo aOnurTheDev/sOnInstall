@@ -1,0 +1,128 @@
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, NotRequired, Self, TypedDict, override
+
+from soninstall.lib.models.config import SubConfig, SummaryLevel
+from soninstall.lib.models.users import Password, User
+from soninstall.lib.translationhandler import tr
+
+
+class U2FLoginConfigSerialization(TypedDict):
+	u2f_login_method: str
+	passwordless_sudo: bool
+
+
+class AuthenticationSerialization(TypedDict):
+	u2f_config: NotRequired[U2FLoginConfigSerialization]
+
+
+class U2FLoginMethod(Enum):
+	Passwordless = 'passwordless'
+	SecondFactor = 'second_factor'
+
+	def display_value(self) -> str:
+		match self:
+			case U2FLoginMethod.Passwordless:
+				return tr('Passwordless login')
+			case U2FLoginMethod.SecondFactor:
+				return tr('Second factor login')
+			case _:
+				raise ValueError(f'Unknown type: {self}')
+
+
+@dataclass
+class U2FLoginConfiguration(SubConfig):
+	u2f_login_method: U2FLoginMethod
+	passwordless_sudo: bool = False
+
+	NAME: str = tr('U2F login')
+
+	@override
+	def json(self) -> U2FLoginConfigSerialization:
+		return {
+			'u2f_login_method': self.u2f_login_method.value,
+			'passwordless_sudo': self.passwordless_sudo,
+		}
+
+	@override
+	def summary(self, _level: SummaryLevel = SummaryLevel.BASIC) -> list[str]:
+		return [
+			tr('U2F login method "{}"').format(self.u2f_login_method.display_value()),
+			tr('U2F passwordless sudo enabled') if self.passwordless_sudo else tr('U2F passwordless sudo disabled'),
+		]
+
+	@classmethod
+	def parse_arg(cls, args: U2FLoginConfigSerialization) -> Self | None:
+		u2f_login_method = args.get('u2f_login_method')
+
+		if not u2f_login_method:
+			return None
+
+		u2f_config = cls(u2f_login_method=U2FLoginMethod(u2f_login_method))
+
+		u2f_config.u2f_login_method = U2FLoginMethod(u2f_login_method)
+
+		if passwordless_sudo := args.get('passwordless_sudo') is not None:
+			u2f_config.passwordless_sudo = passwordless_sudo
+
+		return u2f_config
+
+
+@dataclass
+class AuthenticationConfiguration(SubConfig):
+	root_enc_password: Password | None = None
+	users: list[User] = field(default_factory=list)
+	u2f_config: U2FLoginConfiguration | None = None
+
+	NAME: str = tr('Authentication')
+
+	@classmethod
+	def parse_arg(cls, args: dict[str, Any]) -> Self:
+		auth_config = cls()
+
+		if (u2f_config := args.get('u2f_config')) is not None:
+			auth_config.u2f_config = U2FLoginConfiguration.parse_arg(u2f_config)
+
+		if enc_password := args.get('root_enc_password'):
+			auth_config.root_enc_password = Password(enc_password=enc_password)
+
+		return auth_config
+
+	@override
+	def json(self) -> AuthenticationSerialization:
+		config: AuthenticationSerialization = {}
+
+		if self.u2f_config:
+			config['u2f_config'] = self.u2f_config.json()
+
+		return config
+
+	@override
+	def summary(self, level: SummaryLevel = SummaryLevel.BASIC) -> list[str]:
+		out: list[str] = []
+
+		if self.root_enc_password:
+			out.append(tr('Root password set'))
+
+		match level:
+			case SummaryLevel.BASIC:
+				if self.users:
+					out.append(tr('Configured {} user(s)').format(len(self.users)))
+
+				if self.u2f_config:
+					out.append(tr('U2F configured'))
+			case SummaryLevel.DETAILED:
+				for user in self.users:
+					summary = user.summary(level)
+					out.extend(summary)
+
+				if self.u2f_config:
+					out.extend(self.u2f_config.summary(level))
+
+		return out
+
+	def has_superuser(self) -> bool:
+		return any(u.sudo for u in self.users)
+
+	def has_regular_user(self) -> bool:
+		return len(self.users) > 0

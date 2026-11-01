@@ -1,5 +1,5 @@
 {
-  "archinstall_language": "English",
+  "installer_language": "English",
   "script": "test_script",
   "app_config": {
     "bluetooth_config": {

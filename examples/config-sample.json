@@ -1,5 +1,5 @@
 {
-  "archinstall-language": "English",
+  "installer_language": "English",
   "audio_config": {
     "audio": "pipewire"
   },

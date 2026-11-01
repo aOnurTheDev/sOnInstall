@@ -3,7 +3,7 @@
 Python module
 =============
 
-Archinstall supports running in `module mode <https://docs.python.org/3/library/__main__.html>`_.
+sOninstall supports running in `module mode <https://docs.python.org/3/library/__main__.html>`_.
 The way the library is invoked in module mode is limited to executing scripts under the `scripts`_ folder.
 
 It's therefore important to place any script or profile you wish to invoke in the examples folder prior to building and installing.
@@ -23,23 +23,23 @@ More on how you create these in the next section.
 Creating a script
 -----------------
 
-Lets create a `test_installer` - installer as an example. This is assuming that the folder `./archinstall` is a git-clone of the main repo.
+Lets create a `test_installer` - installer as an example. This is assuming that the folder `./soninstall` is a git-clone of the main repo.
 We begin by creating :code:`scripts/test_installer.py`. The placement here is important later.
 
-This script can now already be called using :code:`python -m archinstall --script test_installer` after a successful installation of the library itself.
+This script can now already be called using :code:`python -m soninstall --script test_installer` after a successful installation of the library itself.
 But the script won't do much. So we'll do something simple like list all the hard drives as an example.
 
-To do this, we'll begin by importing :code:`archinstall` in our :code:`scripts/test_installer.py` and call a function within ``archinstall``.
+To do this, we'll begin by importing :code:`soninstall` in our :code:`scripts/test_installer.py` and call a function within ``soninstall``.
 
 .. code-block:: python
 
-    from archinstall.lib.disk.device_handler import device_handler
+    from soninstall.lib.disk.device_handler import device_handler
     from pprint import pprint
 
     pprint(device_handler.devices)
 
 Now, go ahead and reference the :ref:`installing.python.manual` installation method.
-After running ``python -m archinstall --script test_installer`` it should print something that looks like:
+After running ``python -m soninstall --script test_installer`` it should print something that looks like:
 
 .. code-block:: text
 
@@ -53,9 +53,9 @@ After running ``python -m archinstall --script test_installer`` it should print 
                total_size=Size(value=512110190592, unit=<Unit.B: 1>,
                sector_size=SectorSize(value=512, unit=<Unit.B: 1>)),
                free_space_regions=[
-                   <archinstall.lib.disk.device.DeviceGeometry object at 0x7fbe166c4250>,
-                   <archinstall.lib.disk.device.DeviceGeometry object at 0x7fbe166c4c50>,
-                   <archinstall.lib.disk.device.DeviceGeometry object at 0x7fbe166c4a10>],
+                   <soninstall.lib.disk.device.DeviceGeometry object at 0x7fbe166c4250>,
+                   <soninstall.lib.disk.device.DeviceGeometry object at 0x7fbe166c4c50>,
+                   <soninstall.lib.disk.device.DeviceGeometry object at 0x7fbe166c4a10>],
                sector_size=SectorSize(value=512, unit=<Unit.B: 1>),
                read_only=False,
                dirty=False
@@ -87,7 +87,7 @@ After running ``python -m archinstall --script test_installer`` it should print 
        )
    ]
 
-That means your script is in the right place, and ``archinstall`` is working as intended.
+That means your script is in the right place, and ``soninstall`` is working as intended.
 
 .. note::
 

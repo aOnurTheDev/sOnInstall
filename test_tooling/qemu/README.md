@@ -9,7 +9,7 @@ After `mkosi -B build` has been executed, run the following:
         --harddrive ~/test.qcow2:15G \
         --harddrive ~/test_large.qcow2:25G
 
-And install using `archinstall`, after the machine has been shutdown, run:
+And install using `soninstall`, after the machine has been shutdown, run:
 
     python test_tooling/qemu/qemu.py \
         --harddrive ~/test.qcow2:15G \

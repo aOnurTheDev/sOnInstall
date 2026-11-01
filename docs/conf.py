@@ -45,7 +45,7 @@ def setup(app: Sphinx) -> None:
 
 # -- Project information -----------------------------------------------------
 
-project = 'python-archinstall'
+project = 'soninstall'
 copyright = '2022, Anton Hvornum'
 author = 'Anton Hvornum'
 
@@ -117,13 +117,13 @@ html_show_sourcelink = False
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'archinstalldoc'
+htmlhelp_basename = 'soninstalldoc'
 
 # -- Options for manual page output --------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [('index', 'archinstall', 'archinstall Documentation', ['Anton Hvornum'], 1)]
+man_pages = [('index', 'soninstall', 'sOninstall Documentation', ['aOnurTheDev', 'Anton Hvornum'], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -135,5 +135,5 @@ man_pages = [('index', 'archinstall', 'archinstall Documentation', ['Anton Hvorn
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-	('index', 'archinstall', 'archinstall Documentation', 'Anton Hvornum', 'archinstall', 'Simple and minimal HTTP server.'),
+	('index', 'soninstall', 'sOninstall Documentation', 'aOnurTheDev, Anton Hvornum', 'soninstall', 'The guided installer for sOnOs.'),
 ]

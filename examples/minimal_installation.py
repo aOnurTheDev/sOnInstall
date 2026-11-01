@@ -1,1 +1,1 @@
-../archinstall/scripts/minimal.py
+../soninstall/scripts/minimal.py

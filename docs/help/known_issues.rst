@@ -3,7 +3,7 @@
 Known Issues
 ============
 
-Some issues are out of the `archinstall`_ projects scope, and the ones we know of are listed below.
+Some issues are out of the `sOninstall`_ projects scope, and the ones we know of are listed below.
 
 .. _waiting for time sync:
 
@@ -17,7 +17,7 @@ Restarting ``systemd-timesyncd.service`` might work but most often you need to c
 
 .. note::
 
-   If you know your time is correct on the machine, you can run ``archinstall --skip-ntp`` to ignore time sync.
+   If you know your time is correct on the machine, you can run ``soninstall --skip-ntp`` to ignore time sync.
 
 Waiting for Arch Linux keyring sync (archlinux-keyring-wkd-sync) to complete. `#2679`_
 --------------------------------------------------------------------------------------
@@ -42,13 +42,13 @@ To fix this, try the following:
 
 .. note::
 
-   If you know the ISO is the latest, and that you have valid GPG keys, try ``archinstall --skip-wkd`` to ignore waiting for the sync.
+   If you know the ISO is the latest, and that you have valid GPG keys, try ``soninstall --skip-wkd`` to ignore waiting for the sync.
 
    If you skip WKD sync, you might end up with:
 
    .. code-block:: console
 
-         > error: archinstall: signature from "Anton Hvornum (Torxed) <torxed@archlinux.org>" is unknown trust
+         > error: sOninstall: signature from "Anton Hvornum (Torxed) <torxed@archlinux.org>" is unknown trust
          > :: File /var/cache/pacman/pkg/archinstall-1.2.3-4-x86_64.pkg.tar.xz is corrupted (invalid or corrupted package (PGP signature)).
          > Do you want to delete it? [Y/n] 
 
@@ -79,9 +79,9 @@ Missing key-issues tend to be that the `archlinux-keyring`_ package is out of da
 There is an attempt from upstream to fix this issue, and it's the `archlinux-keyring-wkd-sync.service`_
 
 The service starts almost immediately during boot, and if network is not configured in time — the service will fail.
-Subsequently the ``archinstall`` run might operate on an old keyring despite there being an update service for this.
+Subsequently the ``soninstall`` run might operate on an old keyring despite there being an update service for this.
 
-There is really no way to reliably over time work around this issue in ``archinstall``.
+There is really no way to reliably over time work around this issue in ``soninstall``.
 Instead, efforts to the upstream service should be considered the way forward. And/or keys not expiring between a sane amount of ISOs.
 
 .. note::
@@ -96,25 +96,25 @@ AUR packages
 ------------
 
 This is also a catch-all issue.
-`AUR is unsupported <https://wiki.archlinux.org/title/Arch_User_Repository#Updating_packages>`_, and until that changes we cannot use AUR packages to solve feature requests in ``archinstall``.
+`AUR is unsupported <https://wiki.archlinux.org/title/Arch_User_Repository#Updating_packages>`_, and until that changes we cannot use AUR packages to solve feature requests in ``soninstall``.
 
 This means that feature requests like supporting filesystems such as `ZFS`_ can not be added, and issues cannot be solved by using AUR packages either.
 
 .. note::
 
-   But in spirit of giving the community options, ``archinstall`` supports :ref:`archinstall.Plugins`, which means you can run ``archinstall --plugin <url>`` and source an AUR plugin.
+   But in spirit of giving the community options, ``soninstall`` supports :ref:`soninstall.Plugins`, which means you can run ``soninstall --plugin <url>`` and source an AUR plugin.
 
    `torxed/archinstall-aur <https://github.com/torxed/archinstall-aur>`_ is a reference implementation for plugins:
 
    .. code-block:: console
 
-      # archinstall --plugin https://archlinux.life/aur-plugin
+      # soninstall --plugin https://archlinux.life/aur-plugin
 
    `phisch/archinstall-aur <https://github.com/phisch/archinstall-aur>`_ is another alternative:
 
    .. code-block:: console
 
-      # archinstall --plugin https://raw.githubusercontent.com/phisch/archinstall-aur/master/archinstall-aur.py
+      # soninstall --plugin https://raw.githubusercontent.com/phisch/archinstall-aur/master/archinstall-aur.py
 
    .. warning::
 
@@ -132,5 +132,5 @@ This means that feature requests like supporting filesystems such as `ZFS`_ can 
 .. _archlinux-keyring: https://archlinux.org/packages/core/any/archlinux-keyring/
 .. _archlinux-keyring-wkd-sync.service: https://gitlab.archlinux.org/archlinux/archlinux-keyring/-/blob/7e672dad10652a80d1cc575d75cdb46442cd7f96/wkd_sync/archlinux-keyring-wkd-sync.service.in
 .. _ZFS: https://aur.archlinux.org/packages/zfs-linux
-.. _archinstall: https://github.com/archlinux/archinstall/
+.. _sOninstall: https://github.com/aOnurTheDev/sOnInstall/
 .. _timedatectl show: https://github.com/archlinux/archinstall/blob/e6344f93f7e476d05bbcd642f2ed91fdde545870/archinstall/lib/installer.py#L136

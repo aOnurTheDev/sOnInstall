@@ -1,4 +1,4 @@
-from archinstall.lib.models.network import WifiNetwork
+from soninstall.lib.models.network import WifiNetwork
 
 SAMPLE_SCAN_RESULTS = """bssid / frequency / signal level / flags / ssid
 aa:bb:cc:dd:ee:01	2412	-40	[WPA2-PSK-CCMP][ESS]	NoSpacesSSID

@@ -1,4 +1,4 @@
-# Contributing to archinstall
+# Contributing to sOninstall
 
 Any contributions through pull requests are welcome as this project aims to be a community based project to ease some Arch Linux installation steps.
 Bear in mind that in the future this repo might be transferred to the official [GitLab repo under Arch Linux](http://gitlab.archlinux.org/archlinux/) *(if GitLab becomes open to the general public)*.
@@ -15,8 +15,7 @@ Patch releases will be done against their own branches, branched from stable tag
 
 ## Discussions
 
-Currently, questions, bugs and suggestions should be reported through [GitHub issue tracker](https://github.com/archlinux/archinstall/issues).<br>
-For less formal discussions there is also an [archinstall Discord server](https://discord.gg/aDeMffrxNg).
+Questions, bugs and suggestions should be reported through the [GitHub issue tracker](https://github.com/aOnurTheDev/sOnInstall/issues).
 
 ## Coding convention
 
@@ -38,7 +37,7 @@ There might therefore be older code which does not follow the coding convention 
 
 ## Git hooks
 
-`archinstall` ships pre-commit hooks that make it easier to run checks such as `mypy`, `ruff check`, and `flake8` locally.
+`soninstall` ships pre-commit hooks that make it easier to run checks such as `mypy`, `ruff check`, and `flake8` locally.
 The checks are listed in `.pre-commit-config.yaml` and can be installed via
 ```
 pre-commit install
@@ -54,7 +53,7 @@ If you'd like to contribute to the documentation, refer to [this guide](docs/REA
 
 Archinstall uses GitHub's pull-request workflow and all contributions in terms of code should be done through pull requests.<br>
 
-Anyone interested in archinstall may review your code. One of the core developers will merge your pull request when they
+Anyone interested in sOninstall may review your code. One of the core developers will merge your pull request when they
 think it is ready. For every pull request, we aim to promptly either merge it or say why it is not yet ready; if you go
 a few days without a reply, please feel free to ping the thread by adding a new comment.
 
@@ -66,6 +65,8 @@ Also, do not squash your commits after you have submitted a pull request, as thi
 squash commits when the pull request is merged.
 
 Maintainer:
-* Anton Hvornum ([@Torxed](https://github.com/Torxed))
+* aOnurTheDev ([@aOnurTheDev](https://github.com/aOnurTheDev))
 
-[Contributors](https://github.com/archlinux/archinstall/graphs/contributors)
+[Contributors](https://github.com/aOnurTheDev/sOnInstall/graphs/contributors)
+
+sOninstall is based on [archinstall](https://github.com/archlinux/archinstall) by Anton Hvornum ([@Torxed](https://github.com/Torxed)) and its [contributors](https://github.com/archlinux/archinstall/graphs/contributors).
